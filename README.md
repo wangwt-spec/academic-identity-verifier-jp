@@ -57,7 +57,7 @@ It only evaluates the level of public existence support based on openly availabl
 - Rule-based scoring engine
 - Public data sources only (e.g. institutional directories, OpenAlex)
 
----
+----
 
 ## Disclaimer
 
