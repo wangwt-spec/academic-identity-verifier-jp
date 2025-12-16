@@ -73,6 +73,10 @@ This project provides informational results only and does not constitute factual
 
 MIT License
 
+## Contributing
+
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before submitting issues or pull requests.
+
 ## Origin Statement
 
 This project was originally conceptualized, structured, and publicly released
