@@ -1,3 +1,19 @@
+A responsible, evidence-based system for assessing the public verifiability of claimed academic or professional identities.
+
+This project does NOT determine fraud, legitimacy, or intent.
+It evaluates whether publicly claimed credentials are supported by publicly available, independent evidence.
+
+Results require human interpretation and contextual review.
+Absence of evidence does not imply evidence of absence.
+
+本プロジェクトは、公開情報に基づき、学術的・専門的な肩書きや経歴の 公開上の検証可能性を評価する補助システムです。
+
+不正・詐称・正当性・意図について判断や断定を行うものではありません。
+あくまで、公開されている独立した情報の有無とその裏付けの程度を示します。
+
+結果の解釈には、必ず人による判断と文脈理解が必要です。
+証拠が見つからないことは、存在しないことを意味しません。
+
 # academic-identity-verifier-jp
 Public existence-based academic identity verification (Japan)
 
