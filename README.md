@@ -77,6 +77,11 @@ MIT License
 
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before submitting issues or pull requests.
 
+## Misuse Policy
+
+Please read [MISUSE_POLICY.md](./MISUSE_POLICY.md) before using or deploying this project.
+
+
 ## Origin Statement
 
 This project was originally conceptualized, structured, and publicly released
