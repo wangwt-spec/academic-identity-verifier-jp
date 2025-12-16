@@ -14,39 +14,48 @@ class EvidenceLevel(Enum):
     NOT_FOUND = "No relevant public records found"
 
 
-def assess_public_verifiability(records: List[str]) -> Dict[str, str]:
+def assess_public_verifiability(person_name, person_affiliation, sources):
     """
-    Assess the availability of publicly accessible evidence.
+    Minimal non-adjudicative assessment function.
 
-    Parameters
-    ----------
-    records : List[str]
-        A list of descriptions of public, independent sources.
-        This function does NOT validate their truthfulness.
+    Args:
+        person_name (str): Name of the person to assess.
+        person_affiliation (str): Affiliation or institution.
+        sources (list): List of publicly available sources (URLs, documents, etc.)
 
-    Returns
-    -------
-    Dict[str, str]
-        A neutral assessment result intended for human interpretation.
-
-    Notes
-    -----
-    - This function does NOT make claims about fraud or authenticity.
-    - Absence of evidence is NOT evidence of absence.
-    - Results must be interpreted in context by a human.
+    Returns:
+        dict: A non-adjudicative assessment including an evidence level
+              and a human review notice.
     """
 
-    if not records:
-        level = EvidenceLevel.NOT_FOUND
-    elif len(records) >= 3:
-        level = EvidenceLevel.HIGH
-    elif len(records) == 2:
-        level = EvidenceLevel.MEDIUM
+    # 简单逻辑：根据来源数量给出证据等级
+    if not sources:
+        evidence_level = "LOW"
+        description = "No public sources found. Human review required."
+    elif len(sources) < 3:
+        evidence_level = "MEDIUM"
+        description = "Limited public sources found. Human review required."
     else:
-        level = EvidenceLevel.LOW
+        evidence_level = "HIGH"
+        description = "Multiple public sources found. Human review required."
 
     return {
-        "evidence_level": level.name,
-        "description": level.value,
-        "disclaimer": "Human review required. No conclusions implied.",
+        "evidence_level": evidence_level,
+        "description": description
     }
+
+
+def verify_identity(name: str, affiliation: str, sources: list):
+    """
+    Public API wrapper.
+
+    This function does NOT make any identity claims.
+    It only delegates to assess_public_verifiability
+    and returns a non-adjudicative assessment result.
+    """
+    return assess_public_verifiability(
+        name,
+        affiliation,
+        sources
+    )
+
