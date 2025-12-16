@@ -16,7 +16,7 @@ It only evaluates the level of public existence support based on openly availabl
 
 ---
 
-## 概要（日本語）
+## 概要（日本語） 
 
 本プロジェクトは、日本国内における学術・研究関連の身元について、
 公開情報に基づき「存在性の裏付け」が確認できるかを検証するツールです。
