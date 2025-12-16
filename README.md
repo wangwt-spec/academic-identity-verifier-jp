@@ -82,3 +82,10 @@ public-information-based verification.
 The concept, structure, terminology, and compliance model were first
 publicly released in this repository.
 
+## オリジン声明
+
+本プロジェクトは、公開情報に基づく学術的身元確認の課題に対応するため、
+本リポジトリの作者によって最初に構想・公開されたものです。
+
+本リポジトリは、本構想・構造・用語・合規モデルの初出公開元です。
+
