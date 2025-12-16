@@ -72,3 +72,13 @@ This project provides informational results only and does not constitute factual
 ## License
 
 MIT License
+
+## Origin Statement
+
+This project was originally conceptualized and initiated by the author
+to address public academic identity misrepresentation risks through
+public-information-based verification.
+
+The concept, structure, terminology, and compliance model were first
+publicly released in this repository.
+
