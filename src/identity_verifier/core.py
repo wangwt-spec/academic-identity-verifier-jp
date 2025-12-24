@@ -1,61 +1,84 @@
-from enum import Enum
-from typing import List, Dict
+import requests
 
+# ---------- Data Sources ----------
 
-class EvidenceLevel(Enum):
+def fetch_crossref_publications(name, affiliation):
     """
-    Represents the availability level of public, independent evidence.
-
-    This enum does NOT imply correctness, legitimacy, or intent.
+    Fetch public publication metadata from Crossref.
     """
-    HIGH = "Multiple independent public sources"
-    MEDIUM = "Limited or indirect public sources"
-    LOW = "Minimal public information"
-    NOT_FOUND = "No relevant public records found"
+    url = (
+        "https://api.crossref.org/works"
+        f"?query.author={name}&query.affiliation={affiliation}&rows=10"
+    )
+    try:
+        r = requests.get(url, timeout=10)
+        r.raise_for_status()
+        return r.json().get("message", {}).get("items", [])
+    except Exception:
+        return []
 
-
-def assess_public_verifiability(person_name, person_affiliation, sources):
+def fetch_orcid_works(orcid_id):
     """
-    Minimal non-adjudicative assessment function.
-
-    Args:
-        person_name (str): Name of the person to assess.
-        person_affiliation (str): Affiliation or institution.
-        sources (list): List of publicly available sources (URLs, documents, etc.)
-
-    Returns:
-        dict: A non-adjudicative assessment including an evidence level
-              and a human review notice.
+    Fetch public works from ORCID Public API.
     """
+    url = f"https://pub.orcid.org/v3.0/{orcid_id}/works"
+    headers = {"Accept": "application/json"}
+    try:
+        r = requests.get(url, headers=headers, timeout=10)
+        r.raise_for_status()
+        return r.json().get("group", [])
+    except Exception:
+        return []
 
-    # 简单逻辑：根据来源数量给出证据等级
-    if not sources:
-        evidence_level = "LOW"
-        description = "No public sources found. Human review required."
-    elif len(sources) < 3:
-        evidence_level = "MEDIUM"
-        description = "Limited public sources found. Human review required."
+# ---------- Core Assessment ----------
+
+def assess_public_verifiability(name, affiliation, sources=None, orcid_id=None):
+    """
+    Non-adjudicative public verifiability assessment.
+
+    This function does NOT confirm identity.
+    It only reports the presence of publicly available evidence.
+    """
+    collected_sources = []
+
+    if sources:
+        collected_sources.extend(sources)
+
+    collected_sources.extend(
+        fetch_crossref_publications(name, affiliation)
+    )
+
+    if orcid_id:
+        collected_sources.extend(
+            fetch_orcid_works(orcid_id)
+        )
+
+    if not collected_sources:
+        level = "LOW"
+        description = "No publicly verifiable sources found. Human review required."
+    elif len(collected_sources) < 3:
+        level = "MEDIUM"
+        description = "Limited publicly verifiable sources found. Human review required."
     else:
-        evidence_level = "HIGH"
-        description = "Multiple public sources found. Human review required."
+        level = "HIGH"
+        description = "Multiple publicly verifiable sources found. Human review required."
 
     return {
-        "evidence_level": evidence_level,
-        "description": description
+        "evidence_level": level,
+        "source_count": len(collected_sources),
+        "description": description,
     }
 
-
-def verify_identity(name: str, affiliation: str, sources: list):
+def verify_identity(name, affiliation, sources=None, orcid_id=None):
     """
     Public API wrapper.
-
-    This function does NOT make any identity claims.
-    It only delegates to assess_public_verifiability
-    and returns a non-adjudicative assessment result.
     """
     return assess_public_verifiability(
-        name,
-        affiliation,
-        sources
+        name=name,
+        affiliation=affiliation,
+        sources=sources,
+        orcid_id=orcid_id,
     )
+
+
 

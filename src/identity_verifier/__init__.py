@@ -7,9 +7,10 @@ of claimed academic or professional identities.
 This package does NOT determine truth, fraud, or intent.
 """
 
-from .core import assess_public_verifiability, EvidenceLevel
+from .core import assess_public_verifiability, verify_identity
 
 __all__ = [
     "assess_public_verifiability",
-    "EvidenceLevel",
+    "verify_identity",
 ]
+
